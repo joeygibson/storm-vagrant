@@ -3,7 +3,7 @@
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
-STORM_VERSION = "storm-0.9.1-incubating-SNAPSHOT"
+STORM_VERSION = "apache-storm-0.9.1-incubating"
 STORM_ARCHIVE = "#{STORM_VERSION}.zip"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -12,18 +12,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.hostmanager.enabled = true
   
   if(!File.exist?(STORM_ARCHIVE))
-    `wget -N https://dl.dropboxusercontent.com/s/dj86w8ojecgsam7/storm-0.9.0.1.zip`
+    `curl -O http://www.motorlogy.com/apache/incubator/storm/apache-storm-0.9.1-incubating/#{STORM_ARCHIVE}`
   end
   
   config.vm.define "zookeeper" do |zookeeper|
-    zookeeper.vm.box = "precise32"
+    zookeeper.vm.box = "hashicorp/precise32"
     zookeeper.vm.network "private_network", ip: "192.168.50.3"
     zookeeper.vm.hostname = "zookeeper"
     zookeeper.vm.provision "shell", path: "install-zookeeper.sh"
   end
 
   config.vm.define "nimbus" do |nimbus|
-    nimbus.vm.box = "precise32"
+    nimbus.vm.box = "hashicorp/precise32"
     nimbus.vm.network "private_network", ip: "192.168.50.4"
     nimbus.vm.hostname = "nimbus"
     
@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "supervisor1" do |supervisor|
-    supervisor.vm.box = "precise32"
+    supervisor.vm.box = "hashicorp/precise32"
     supervisor.vm.network "private_network", ip: "192.168.50.5"
     supervisor.vm.hostname = "supervisor1"
     
@@ -54,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
   
   config.vm.define "supervisor2" do |supervisor|
-    supervisor.vm.box = "precise32"
+    supervisor.vm.box = "hashicorp/precise32"
     supervisor.vm.network "private_network", ip: "192.168.50.6"
     supervisor.vm.hostname = "supervisor2"
     
@@ -74,11 +74,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  #config.vm.box = "precise32"
+  #config.vm.box = "hashicorp/precise32"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  #config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  #config.vm.box_url = "http://files.vagrantup.com/hashicorp/precise32.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -122,7 +122,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in
-  # the file precise32.pp in the manifests_path directory.
+  # the file hashicorp/precise32.pp in the manifests_path directory.
   #
   # An example Puppet manifest to provision the message of the day:
   #
